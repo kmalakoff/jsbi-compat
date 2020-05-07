@@ -1,6 +1,6 @@
 {
   "name": "jsbi-compat",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Provides a jsbi interface on top of native BigInt and provides a fallback to jsbi library when BigInt is not available. Adds isBigInt function for cross-implementation type checking",
   "main": "index.js",
   "engines": {
@@ -43,7 +43,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "jsbi-tests": "^3.1.2",
     "mocha-compat": "^3.5.5",
-    "mock-require": "^3.0.3",
+    "mock-require": "kmalakoff/mock-require#master",
     "nvs": "^0.2.0",
     "prettier": "^2.0.5"
   }
