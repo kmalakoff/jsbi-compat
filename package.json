@@ -30,7 +30,7 @@
   "dependencies": {
     "char-code-at": "0.0.1",
     "clz32": "^1.0.1",
-    "imul": "^1.0.1",
+    "imul": "^2.0.0",
     "jsbi": "^4.3.0",
     "max-safe-integer": "^2.0.0",
     "setprototypeof": "^1.2.0"
