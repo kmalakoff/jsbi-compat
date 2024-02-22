@@ -1,7 +1,6 @@
 var JSBI = {};
 
-JSBI.BigInt = function (value) {
-  // eslint-disable-next-line no-undef
+JSBI.BigInt = (value) => {
   return BigInt(value);
 };
 
@@ -66,12 +65,10 @@ JSBI.greaterThanOrEqual = function greaterThanOrEqual(a, b) {
 };
 
 JSBI.EQ = function EQ(x, y) {
-  // eslint-disable-next-line eqeqeq
-  return x == y;
+  return x === y;
 };
 JSBI.NE = function NE(x, y) {
-  // eslint-disable-next-line eqeqeq
-  return x != y;
+  return x !== y;
 };
 JSBI.LT = function LT(x, y) {
   return x < y;
@@ -94,11 +91,9 @@ JSBI.isBigInt = function isBigInt(a) {
 };
 
 JSBI.asIntN = function asIntN(n, x) {
-  // eslint-disable-next-line no-undef
   return BigInt.asIntN(n, x);
 };
 JSBI.asUintN = function asUintN(n, x) {
-  // eslint-disable-next-line no-undef
   return BigInt.asUintN(n, x);
 };
 

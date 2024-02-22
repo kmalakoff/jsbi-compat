@@ -5,18 +5,18 @@ var mock = require('mock-require-lazy');
 var JSBI_TESTS = path.dirname(require.resolve('jsbi-tests'));
 var METHODS = ['tests', 'as-int-n'];
 
-describe('BigInt Exists', function () {
-  describe('BigInt', function () {
-    var JSBI = require('../../lib/BigInt');
+describe('BigInt Exists', () => {
+  describe('BigInt', () => {
+    var { JSBI } = require('jsbi-compat');
 
-    METHODS.forEach(function (method) {
-      it(method, function () {
+    METHODS.forEach((method) => {
+      it(method, () => {
         mock('jsbi', JSBI);
-        require(JSBI_TESTS + '/tests/' + method);
+        require(`${JSBI_TESTS}/tests/${method}`);
       });
     });
 
-    it('supports isBigInt', function () {
+    it('supports isBigInt', () => {
       assert.equal(JSBI.isBigInt(false), false);
       assert.equal(JSBI.isBigInt(true), false);
       assert.equal(JSBI.isBigInt(1), false);
@@ -25,17 +25,17 @@ describe('BigInt Exists', function () {
     });
   });
 
-  describe('JTBI', function () {
-    var JSBI = require('../../lib/jsbi');
+  describe('JTBI', () => {
+    var { JSBI } = require('jsbi-compat');
 
-    METHODS.forEach(function (method) {
-      it(method, function () {
+    METHODS.forEach((method) => {
+      it(method, () => {
         mock('jsbi', JSBI);
-        require(JSBI_TESTS + '/tests/' + method);
+        require(`${JSBI_TESTS}/tests/${method}`);
       });
     });
 
-    it('supports isBigInt', function () {
+    it('supports isBigInt', () => {
       assert.equal(JSBI.isBigInt(false), false);
       assert.equal(JSBI.isBigInt(true), false);
       assert.equal(JSBI.isBigInt(1), false);
@@ -44,22 +44,23 @@ describe('BigInt Exists', function () {
     });
   });
 
-  describe('library', function () {
-    var JSBI = require('../..');
+  describe('library', () => {
+    // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+    var BigInt = require('jsbi-compat');
 
-    METHODS.forEach(function (method) {
-      it(method, function () {
-        mock('jsbi', JSBI);
-        require(JSBI_TESTS + '/tests/' + method);
+    METHODS.forEach((method) => {
+      it(method, () => {
+        mock('jsbi', BigInt);
+        require(`${JSBI_TESTS}/tests/${method}`);
       });
     });
 
-    it('supports isBigInt', function () {
-      assert.equal(JSBI.isBigInt(false), false);
-      assert.equal(JSBI.isBigInt(true), false);
-      assert.equal(JSBI.isBigInt(1), false);
-      assert.equal(JSBI.isBigInt('hello'), false);
-      assert.equal(JSBI.isBigInt(JSBI.BigInt(1)), true);
+    it('supports isBigInt', () => {
+      assert.equal(BigInt.isBigInt(false), false);
+      assert.equal(BigInt.isBigInt(true), false);
+      assert.equal(BigInt.isBigInt(1), false);
+      assert.equal(BigInt.isBigInt('hello'), false);
+      assert.equal(BigInt.isBigInt(BigInt.BigInt(1)), true);
     });
   });
 });
