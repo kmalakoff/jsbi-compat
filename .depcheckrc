@@ -1,1 +1,1 @@
-ignores: ["depcheck"]
+ignores: ["jsbi-compat", "jsbi-tests"]
