@@ -1,6 +1,6 @@
 {
   "name": "jsbi-compat",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Provides a jsbi interface on top of native BigInt and provides a fallback to jsbi library when BigInt is not available. Adds isBigInt function for cross-implementation type checking",
   "keywords": [
     "BigInt",
