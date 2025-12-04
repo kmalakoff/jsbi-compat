@@ -1,1 +1,1 @@
-ignores: ["node-version-use", "ts-dev-stack", "@biomejs/biome", "jsbi-compat", "jsbi-tests"]
+ignores: ["node-version-use", "ts-dev-stack", "jsbi-compat", "jsbi-tests"]
