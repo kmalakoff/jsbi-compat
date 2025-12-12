@@ -1,4 +1,4 @@
-var JSBI = {
+const JSBI = {
   BigInt(value) {
     return BigInt(value);
   },

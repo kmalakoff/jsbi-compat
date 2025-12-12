@@ -12,7 +12,7 @@ describe('BigInt Exists', () => {
   if (typeof BigInt !== 'undefined') return;
 
   describe('BigInt', () => {
-    var { JSBI } = _require('jsbi-compat');
+    const { JSBI } = _require('jsbi-compat');
 
     METHODS.forEach((method) => {
       it(method, () => {
@@ -31,7 +31,7 @@ describe('BigInt Exists', () => {
   });
 
   describe('JTBI', () => {
-    var { JSBI } = _require('jsbi-compat');
+    const { JSBI } = _require('jsbi-compat');
 
     METHODS.forEach((method) => {
       it(method, () => {
@@ -51,7 +51,7 @@ describe('BigInt Exists', () => {
 
   describe('library', () => {
     // biome-ignore lint/suspicious/noShadowRestrictedNames: Allow shadow
-    var BigInt = _require('jsbi-compat');
+    const BigInt = _require('jsbi-compat');
 
     METHODS.forEach((method) => {
       it(method, () => {
