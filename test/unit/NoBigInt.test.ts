@@ -10,7 +10,7 @@ const METHODS = ['tests', 'as-int-n'];
 
 describe('No BigInt', () => {
   describe('JTBI', () => {
-    var { JSBI } = _require('jsbi-compat');
+    const { JSBI } = _require('jsbi-compat');
 
     METHODS.forEach((method) => {
       it(method, () => {
@@ -29,7 +29,7 @@ describe('No BigInt', () => {
   });
 
   describe('library', () => {
-    var { JSBI } = _require('jsbi-compat');
+    const { JSBI } = _require('jsbi-compat');
 
     METHODS.forEach((method) => {
       it(method, () => {
