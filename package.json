@@ -38,21 +38,21 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "char-code-at": "*",
-    "clz32": "*",
-    "imul": "*",
-    "jsbi": "*",
-    "max-safe-integer": "*",
-    "setprototypeof": "*"
+    "char-code-at": "^0.0.1",
+    "clz32": "^2.0.0",
+    "imul": "^2.0.0",
+    "jsbi": "^4.3.2",
+    "max-safe-integer": "^2.0.0",
+    "setprototypeof": "^1.2.0"
   },
   "devDependencies": {
-    "@types/mocha": "*",
-    "@types/node": "*",
-    "jsbi-tests": "*",
-    "mock-require-lazy": "*",
-    "node-version-use": "*",
-    "ts-dev-stack": "*",
-    "tsds-config": "*"
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.0.1",
+    "jsbi-tests": "^3.1.2",
+    "mock-require-lazy": "^2.0.9",
+    "node-version-use": "^2.1.5",
+    "ts-dev-stack": "^1.21.3",
+    "tsds-config": "^0.2.0"
   },
   "engines": {
     "node": ">=0.8"
