@@ -10,7 +10,7 @@ if (typeof Object.setPrototypeOf === 'undefined') Object.setPrototypeOf = requir
 import JSBI from 'jsbi/dist/jsbi-umd.js';
 
 // jsbi extension
-JSBI.isBigInt = function isBigInt(x) {
+JSBI.isBigInt = function isBigInt(x: unknown) {
   return x instanceof JSBI;
 };
 
