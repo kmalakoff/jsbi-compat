@@ -1,1 +1,1 @@
-ignores: ["node-version-use", "ts-dev-stack", "jsbi-compat", "jsbi-tests"]
+ignores: ["jsbi-compat", "node-version-use", "ts-dev-stack", "jsbi-tests"]
