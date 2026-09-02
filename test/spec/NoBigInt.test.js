@@ -1,6 +1,6 @@
 var assert = require('assert');
 var path = require('path');
-var mock = require('mock-require');
+var mock = require('mock-require-lazy');
 
 var JSBI_TESTS = path.dirname(require.resolve('jsbi-tests'));
 var METHODS = ['tests', 'as-int-n'];
