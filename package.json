@@ -33,8 +33,8 @@
     "build": "tsds build",
     "format": "tsds format",
     "prepublishOnly": "tsds validate",
-    "test": "tsds test:node --no-timeouts",
-    "test:engines": "nvu engines tsds test:node --no-timeouts",
+    "test": "tsds test:node --no-timeouts test/unit/**/*.test.* && tsds test:node --no-timeouts test/exports/**/*.test.*",
+    "test:engines": "nvu engines tsds test:node --no-timeouts test/unit/**/*.test.*",
     "version": "tsds version"
   },
   "dependencies": {
