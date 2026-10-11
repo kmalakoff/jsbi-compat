@@ -1,14 +1,16 @@
 # jsbi-compat
 
-Provides a jsbi interface on top of native BigInt and provides a fallback to jsbi library when BigInt is not available. Adds isBigInt function for cross-implementation type checking.
+`jsbi-compat` provides JSBI-style bigint operations. The default export uses native `BigInt` when available and falls back to JSBI when it is absent. The named `JSBI` export always uses the JSBI implementation.
 
-See [jsbi](https://github.com/GoogleChromeLabs/jsbi) for API details.
+Each implementation's `isBigInt(value)` recognizes its own values: native bigint primitives for the native adapter, or JSBI instances for the polyfill.
+
+See [JSBI](https://github.com/GoogleChromeLabs/jsbi) for bigint operation details. For the full upstream API, including generic `ADD`, mixed-type `EQ`/`NE` equality and DataView helpers, use the named `JSBI` export.
 
 ```bash
 npm install jsbi-compat
-```js
-
 ```
+
+```js
 var JSBI = require('jsbi-compat');
 
 var max = JSBI.BigInt(Number.MAX_SAFE_INTEGER);
