@@ -18,7 +18,23 @@ const JSBI = {
     return a % b;
   },
   exponentiate(a: bigint, b: bigint) {
-    return a ** b;
+    // Keep native BigInt arithmetic without the ES5 exponentiation transform.
+    const zero = BigInt(0);
+    const one = BigInt(1);
+    let factor = a * one;
+    let exponent = b * one;
+    if (exponent < zero) throw new RangeError('Exponent must be positive');
+    if (exponent === zero) return one;
+    if (factor === zero || factor === one) return factor;
+    if (factor === -one) return (exponent & one) === zero ? one : factor;
+
+    let result = one;
+    while (exponent > zero) {
+      if ((exponent & one) !== zero) result *= factor;
+      exponent >>= one;
+      if (exponent > zero) factor *= factor;
+    }
+    return result;
   },
   unaryMinus(a: bigint) {
     return -a;

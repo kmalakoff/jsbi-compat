@@ -1,5 +1,6 @@
 declare module 'jsbi/dist/jsbi-umd.js' {
   class JSBI {
+    toString(radix?: number): string;
     static BigInt(value: bigint | number | string | boolean): JSBI;
     static add(a: JSBI, b: JSBI): JSBI;
     static subtract(a: JSBI, b: JSBI): JSBI;

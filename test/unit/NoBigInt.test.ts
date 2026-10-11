@@ -1,49 +1,40 @@
 import assert from 'assert';
-import mock from 'mock-require-lazy';
 import Module from 'module';
-import path from 'path';
+import { registerAsIntN, registerAsUintN, registerOperations } from '../lib/bigint-contract.ts';
 
 const _require = typeof require === 'undefined' ? Module.createRequire(import.meta.url) : require;
 
-const JSBI_TESTS = path.dirname(_require.resolve('jsbi-tests'));
-const METHODS = ['tests', 'as-int-n'];
+describe('named JSBI polyfill', () => {
+  const { JSBI } = _require('jsbi-compat');
 
-describe('No BigInt', () => {
-  describe('JTBI', () => {
-    const { JSBI } = _require('jsbi-compat');
-
-    METHODS.forEach((method) => {
-      it(method, () => {
-        mock('jsbi', JSBI);
-        _require(`${JSBI_TESTS}/tests/${method}`);
-      });
-    });
-
-    it('supports isBigInt', () => {
-      assert.equal(JSBI.isBigInt(false), false);
-      assert.equal(JSBI.isBigInt(true), false);
-      assert.equal(JSBI.isBigInt(1), false);
-      assert.equal(JSBI.isBigInt('hello'), false);
-      assert.equal(JSBI.isBigInt(JSBI.BigInt(1)), true);
-    });
+  it('returns actual JSBI instances through the named export', () => {
+    assert.strictEqual(JSBI.BigInt(1) instanceof JSBI, true);
+    assert.strictEqual(typeof JSBI.BigInt(1), 'object');
   });
 
-  describe('library', () => {
-    const { JSBI } = _require('jsbi-compat');
+  registerOperations(JSBI);
+  registerAsIntN(JSBI);
+  registerAsUintN(JSBI);
 
-    METHODS.forEach((method) => {
-      it(method, () => {
-        mock('jsbi', JSBI);
-        _require(`${JSBI_TESTS}/tests/${method}`);
-      });
+  if (typeof BigInt !== 'undefined') {
+    it('rejects native bigint values in the polyfill isBigInt check', () => {
+      assert.strictEqual(JSBI.isBigInt(BigInt(1)), false);
     });
+  }
+});
 
-    it('supports isBigInt', () => {
-      assert.equal(JSBI.isBigInt(false), false);
-      assert.equal(JSBI.isBigInt(true), false);
-      assert.equal(JSBI.isBigInt(1), false);
-      assert.equal(JSBI.isBigInt('hello'), false);
-      assert.equal(JSBI.isBigInt(JSBI.BigInt(1)), true);
-    });
+describe('default JSBI fallback', () => {
+  if (typeof BigInt !== 'undefined') return;
+
+  const Fallback = _require('jsbi-compat');
+  const { JSBI } = _require('jsbi-compat');
+
+  it('returns actual JSBI instances through the default export', () => {
+    assert.strictEqual(Fallback.BigInt(1) instanceof JSBI, true);
+    assert.strictEqual(Fallback.isBigInt(JSBI.BigInt(-1)), true);
   });
+
+  registerOperations(Fallback);
+  registerAsIntN(Fallback);
+  registerAsUintN(Fallback);
 });

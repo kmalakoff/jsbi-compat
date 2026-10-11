@@ -1,71 +1,58 @@
 import assert from 'assert';
-import mock from 'mock-require-lazy';
 import Module from 'module';
-import path from 'path';
+import { registerAsIntN, registerAsUintN, registerOperations } from '../lib/bigint-contract.ts';
 
 const _require = typeof require === 'undefined' ? Module.createRequire(import.meta.url) : require;
 
-const JSBI_TESTS = path.dirname(_require.resolve('jsbi-tests'));
-const METHODS = ['tests', 'as-int-n'];
+describe('default native adapter', () => {
+  if (typeof BigInt === 'undefined') return;
 
-describe('BigInt Exists', () => {
-  if (typeof BigInt !== 'undefined') return;
+  const Native = _require('jsbi-compat');
+  const { JSBI } = _require('jsbi-compat');
 
-  describe('BigInt', () => {
-    const { JSBI } = _require('jsbi-compat');
-
-    METHODS.forEach((method) => {
-      it(method, () => {
-        mock('jsbi', JSBI);
-        _require(`${JSBI_TESTS}/tests/${method}`);
-      });
-    });
-
-    it('supports isBigInt', () => {
-      assert.equal(JSBI.isBigInt(false), false);
-      assert.equal(JSBI.isBigInt(true), false);
-      assert.equal(JSBI.isBigInt(1), false);
-      assert.equal(JSBI.isBigInt('hello'), false);
-      assert.equal(JSBI.isBigInt(JSBI.BigInt(1)), true);
-    });
+  it('returns actual native bigint values through the default export', () => {
+    assert.strictEqual(typeof Native.BigInt(1), 'bigint');
+    assert.strictEqual(Native.BigInt('9007199254740993'), BigInt('9007199254740993'));
   });
 
-  describe('JTBI', () => {
-    const { JSBI } = _require('jsbi-compat');
+  registerOperations(Native);
+  if (typeof BigInt.asIntN === 'function') registerAsIntN(Native);
+  if (typeof BigInt.asUintN === 'function') registerAsUintN(Native);
 
-    METHODS.forEach((method) => {
-      it(method, () => {
-        mock('jsbi', JSBI);
-        _require(`${JSBI_TESTS}/tests/${method}`);
-      });
-    });
-
-    it('supports isBigInt', () => {
-      assert.equal(JSBI.isBigInt(false), false);
-      assert.equal(JSBI.isBigInt(true), false);
-      assert.equal(JSBI.isBigInt(1), false);
-      assert.equal(JSBI.isBigInt('hello'), false);
-      assert.equal(JSBI.isBigInt(JSBI.BigInt(1)), true);
-    });
+  it('rejects mixed exponentiation operands before zero and unit shortcuts', () => {
+    assert.throws(() => Native.exponentiate(BigInt(1), 0), TypeError);
+    assert.throws(() => Native.exponentiate(BigInt(1), -1), TypeError);
+    assert.throws(() => Native.exponentiate(0, BigInt(0)), TypeError);
   });
 
-  describe('library', () => {
-    // biome-ignore lint/suspicious/noShadowRestrictedNames: Allow shadow
-    const BigInt = _require('jsbi-compat');
+  it('accepts an existing native bigint', () => {
+    const value = BigInt('-9223372036854775808');
+    assert.strictEqual(Native.BigInt(value), value);
+  });
 
-    METHODS.forEach((method) => {
-      it(method, () => {
-        mock('jsbi', BigInt);
-        _require(`${JSBI_TESTS}/tests/${method}`);
-      });
-    });
+  it('compares bigint operands through its uppercase aliases', () => {
+    const low = Native.BigInt(-2);
+    const high = Native.BigInt(-1);
+    const same = Native.BigInt(-1);
+    assert.strictEqual(Native.EQ(high, same), true);
+    assert.strictEqual(Native.EQ(low, high), false);
+    assert.strictEqual(Native.NE(high, same), false);
+    assert.strictEqual(Native.NE(low, high), true);
+    assert.strictEqual(Native.LT(low, high), true);
+    assert.strictEqual(Native.LT(high, same), false);
+    assert.strictEqual(Native.LT(high, low), false);
+    assert.strictEqual(Native.LE(low, high), true);
+    assert.strictEqual(Native.LE(high, same), true);
+    assert.strictEqual(Native.LE(high, low), false);
+    assert.strictEqual(Native.GT(high, low), true);
+    assert.strictEqual(Native.GT(high, same), false);
+    assert.strictEqual(Native.GT(low, high), false);
+    assert.strictEqual(Native.GE(high, low), true);
+    assert.strictEqual(Native.GE(high, same), true);
+    assert.strictEqual(Native.GE(low, high), false);
+  });
 
-    it('supports isBigInt', () => {
-      assert.equal(BigInt.isBigInt(false), false);
-      assert.equal(BigInt.isBigInt(true), false);
-      assert.equal(BigInt.isBigInt(1), false);
-      assert.equal(BigInt.isBigInt('hello'), false);
-      assert.equal(BigInt.isBigInt(BigInt.BigInt(1)), true);
-    });
+  it('rejects JSBI objects in the native isBigInt check', () => {
+    assert.strictEqual(Native.isBigInt(JSBI.BigInt(1)), false);
   });
 });
